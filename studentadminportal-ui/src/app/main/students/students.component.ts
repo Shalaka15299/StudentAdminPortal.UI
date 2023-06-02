@@ -29,7 +29,7 @@ export class StudentsComponent implements OnInit{
         // alert('hello');
         this.students = successResponse;
         this.dataSource = new MatTableDataSource<Student>(this.students);
-        console.log(successResponse);
+        // console.log(successResponse);
         if(this.matPaginator){
           this.dataSource.paginator = this.matPaginator;
         }

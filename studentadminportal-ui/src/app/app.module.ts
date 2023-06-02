@@ -52,6 +52,7 @@ import { StudentsComponent } from './main/students/students.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ViewStudentComponent } from './main/students/view-student/view-student.component';
+import { NgFor } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { ViewStudentComponent } from './main/students/view-student/view-student.
     MatTableModule,
     HttpClientModule,
     MatFormFieldModule,
-    FormsModule
+  
+    NgFor
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
