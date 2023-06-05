@@ -34,6 +34,8 @@ export class ViewStudentComponent implements OnInit {
   }
   
   genderList: Gender[] = [];
+  isNewStudent = false;
+  header = '';
   
   constructor(private readonly studentService:StudentService,
       private readonly route:ActivatedRoute,
@@ -50,6 +52,21 @@ export class ViewStudentComponent implements OnInit {
 
         if(this.studentId){
           // console.log(this.studentId);
+
+          if(this.studentId.toLowerCase() === 'Addstudent'.toLowerCase())
+          {
+            // console.log(this.studentId.toLowerCase());
+              // If the route contsins 'Add'
+              // -> new student functionality
+              this.isNewStudent = true;
+              this.header = "Add New student";
+          }
+          // otherwise
+          else{
+          // -> Existing student functionality
+          // console.log(this.studentId.toLowerCase());
+          this.isNewStudent = false;
+          this.header ="Edit Student";
           this.studentService.getOneStudent(this.studentId)
           .subscribe(
             (sucessMessage)=>{
@@ -58,11 +75,14 @@ export class ViewStudentComponent implements OnInit {
               this.student = sucessMessage;
             }
           );
+          }
+
+          
               this.genderService.getGenderList()
               .subscribe(
                 (successMessage)=>{
                     this.genderList =  successMessage;
-                    // console.log(this.genderList);
+                     console.log(this.genderList);
                 }
               );
         }
@@ -79,7 +99,9 @@ export class ViewStudentComponent implements OnInit {
           this.snackbar.open('Student Updated Successfully..',undefined,{
             duration:2000
           });
-          
+          setTimeout(()=>{
+            this.router.navigateByUrl('students');
+          },2000);
       },
       (errorMessage)=>{
         console.log(errorMessage);
@@ -108,6 +130,25 @@ export class ViewStudentComponent implements OnInit {
       }
 
     )
+  }
+
+  onAdd():void{
+    this.studentService.addStudent(this.student)
+    .subscribe(
+      (successMessage)=>{
+        console.log(successMessage);
+        this.snackbar.open('Student added successfully..',undefined,{
+          duration:2000
+        });
+        setTimeout(()=>{
+          this.router.navigateByUrl(`students/{successMessage.id}`);
+        },2000);
+      },
+      (errorMessage)=>{
+        console.log(errorMessage);
+      }
+    )
+
   }
 
 }
